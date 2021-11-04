@@ -31,6 +31,7 @@ const main = () => {
       VIDEO.onloadeddata = function () {
         handleResize();
         // window.addEventListener("resize", handleResize);
+        initializePieces(SIZE.rows, SIZE.columns);
         updateCanvas();
       };
       // define errors if camera not allowed or if another error arises
@@ -73,7 +74,10 @@ const updateCanvas = () => {
   window.requestAnimationFrame(updateCanvas);
 };
 
-const initializePieces = () => {
+const initializePieces = (rows,cols) => {
+    SIZE.rows=rows;
+    SIZE.columns=cols;
+
     PIECES = [];
     // iterate through the rows using i, rows using j
     for (let i=0; i<SIZE.rows; i++) {
@@ -81,6 +85,20 @@ const initializePieces = () => {
             // add a new piece using these two indeces 
             PIECES.push(new Piece(i,j));
         }
+    }
+}
+
+// randomize the location of the pieces
+const randomizePieces = () => {
+    // iterate through the pieces and generate random locations
+    for (let i=0; i<PIECES.length; i++) {
+        let loc = {
+            // scaled by the canvas width and height (subtracted by piece width/height)
+            x: Math.random()*(CANVAS.width-PIECES[i].width),
+            y: Math.random()*(CANVAS.height-PIECES[i].height)
+        }
+        PIECES[i].x=loc.x;
+        PIECES[i].y=loc.y;
     }
 }
 
@@ -97,6 +115,18 @@ class Piece{
     // to be able to draw the pieces, use draw method using context as a parameter
     draw(context) {
         context.beginPath();
+
+        // call that crops a specific part of the video 
+        context.drawImage(VIDEO,
+            this.colIndex*VIDEO.videoWidth/SIZE.columns,
+            this.rowIndex*VIDEO.videoHeight/SIZE.rows,
+            VIDEO.videoWidth/SIZE.columns,
+            VIDEO.videoHeight/SIZE.rows,
+            this.x,
+            this.y,
+            this.width,
+            this.height);
+
         context.rect(this.x, this.y, this.width, this.height);
         context.stroke();
     }
