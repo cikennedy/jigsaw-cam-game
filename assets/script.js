@@ -73,7 +73,25 @@ const onMouseMove = (e) => {
 }
 
 const onMouseUp = (e) => {
-    // to do
+    // snap the piece if it is near the correct location to give the player proper feedback
+    if (SELECTED_PIECE.isClose()) {
+        // snaps as player cannot be expected to drop on the exact pixels 
+        SELECTED_PIECE.snap();
+    }
+    SELECTED_PIECE=null;
+}
+
+// iterate through the pieces to check to see if the click location is within the bounds of any piece
+const getPressedPiece = (loc) => {
+    for (let i=0; i<PIECES.length; i++) {
+        if (loc.x>PIECES[i].x && loc.x<PIECES[i].x+PIECES[i].width &&
+             loc.y>PIECES[i].y && loc.y<PIECES[i].y+PIECES[i].height) {
+                 // return the piece if conditions are met 
+                 return PIECES[i];
+             }
+    }
+    // if nothing matches the conditions, return null. meaning nothing was pressed
+    return null;
 }
 
 const handleResize = () => {
@@ -153,6 +171,8 @@ class Piece {
     this.y = SIZE.y + (SIZE.height * this.rowIndex) / SIZE.rows;
     this.width = SIZE.width / SIZE.columns;
     this.height = SIZE.height / SIZE.rows;
+    this.xCorrect = this.x;
+    this.yCorrect = this.y;
   }
   // to be able to draw the pieces, use draw method using context as a parameter
   draw(context) {
@@ -174,4 +194,26 @@ class Piece {
     context.rect(this.x, this.y, this.width, this.height);
     context.stroke();
   }
+  // add method for seeing if the piece is close to the correct location
+  isClose() {
+      // calculate the distance to correct location and see if it is under a 33% threshhold
+      if (distance({x:this.x,y:this.y},
+        {x:this.xCorrect,y:this.yCorrect})<this.width/3) {
+            return true;
+        }
+        return false;
+  }
+  // add method for snapping pieces into place 
+  snap() {
+      this.x=this.xCorrect;
+      this.y=this.yCorrect;
+  }
+}
+
+// measure distance using a consequence of Pythagorean Theorem
+const distance = (p1, p2) => {
+    return Math.sqrt(
+        (p1.x-p2.x)*(p1.x-p2.x)+
+        (p1.x-p2.x)*(p1.y-p2.y));
+    )
 }
