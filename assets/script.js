@@ -47,52 +47,82 @@ const main = () => {
 
 // adding event listeners
 const addEventListeners = () => {
-    CANVAS.addEventListener("mousedown", onMouseDown);
-    CANVAS.addEventListener("mousemove", onMouseMove);
-    CANVAS.addEventListener("mouseup", onMouseUp);
-}
+  CANVAS.addEventListener("mousedown", onMouseDown);
+  CANVAS.addEventListener("mousemove", onMouseMove);
+  CANVAS.addEventListener("mouseup", onMouseUp);
+  CANVAS.addEventListener("touchstart", onTouchStart);
+  CANVAS.addEventListener("touchmove", onTouchMove);
+  CANVAS.addEventListener("touchend", onTouchEnd);
+};
 
 const onMouseDown = (e) => {
-    SELECTED_PIECE=getPressedPiece(e);
-    // if a piece is selected, calculate the offset to the top left
-    // use the offset while dragging so that the piece doesn't snap to the mouse location
-    if (SELECTED_PIECE !=null) {
-        SELECTED_PIECE.offset={
-            x:e.x-SELECTED_PIECE.x,
-            y:e.y-SELECTED_PIECE.y
-        }
+  SELECTED_PIECE = getPressedPiece(e);
+  // if a piece is selected, calculate the offset to the top left
+  // use the offset while dragging so that the piece doesn't snap to the mouse location
+  if (SELECTED_PIECE != null) {
+    // find out the index of the selected piece
+    const index = PIECES.indexOf(SELECTED_PIECE);
+    if (index > -1) {
+      // remove the piece using the splice method, add it using push so that the selected piece is always visible on top
+      PIECES.splice(index, 1);
+      PIECES.push(SELECTED_PIECE);
     }
-}
+    SELECTED_PIECE.offset = {
+      x: e.x - SELECTED_PIECE.x,
+      y: e.y - SELECTED_PIECE.y,
+    };
+  }
+};
 
 // if a piece is selected, update the location to the new mouse location. also considering offset
 const onMouseMove = (e) => {
-    if (SELECTED_PIECE !=null) {
-        SELECTED_PIECE.x=e.x-SELECTED_PIECE.offset.x;
-        SELECTED_PIECE.y=e.y-SELECTED_PIECE.offset.y
-    }
-}
+  if (SELECTED_PIECE != null) {
+    SELECTED_PIECE.x = e.x - SELECTED_PIECE.offset.x;
+    SELECTED_PIECE.y = e.y - SELECTED_PIECE.offset.y;
+  }
+};
 
-const onMouseUp = (e) => {
-    // snap the piece if it is near the correct location to give the player proper feedback
-    if (SELECTED_PIECE.isClose()) {
-        // snaps as player cannot be expected to drop on the exact pixels 
-        SELECTED_PIECE.snap();
-    }
-    SELECTED_PIECE=null;
-}
+const onMouseUp = () => {
+  // snap the piece if it is near the correct location to give the player proper feedback
+  if (SELECTED_PIECE.isClose()) {
+    // snaps as player cannot be expected to drop on the exact pixels
+    SELECTED_PIECE.snap();
+  }
+  SELECTED_PIECE = null;
+};
+
+// use mouse functions as callbacks for touch functions 
+const onTouchStart = (e) => {
+  let loc = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  onMouseDown(loc);
+};
+
+const onTouchMove = (e) => {
+  let loc = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  onMouseMove(loc);
+};
+
+const onTouchEnd = () => {
+  onMouseUp(loc);
+};
 
 // iterate through the pieces to check to see if the click location is within the bounds of any piece
 const getPressedPiece = (loc) => {
-    for (let i=0; i<PIECES.length; i++) {
-        if (loc.x>PIECES[i].x && loc.x<PIECES[i].x+PIECES[i].width &&
-             loc.y>PIECES[i].y && loc.y<PIECES[i].y+PIECES[i].height) {
-                 // return the piece if conditions are met 
-                 return PIECES[i];
-             }
+  // iterate the pieces array in reverse order, the topmost piece is then selected if there are multiple pieces in one area
+  for (let i = PIECES.length - 1; i >= 0; i--) {
+    if (
+      loc.x > PIECES[i].x &&
+      loc.x < PIECES[i].x + PIECES[i].width &&
+      loc.y > PIECES[i].y &&
+      loc.y < PIECES[i].y + PIECES[i].height
+    ) {
+      // return the piece if conditions are met
+      return PIECES[i];
     }
-    // if nothing matches the conditions, return null. meaning nothing was pressed
-    return null;
-}
+  }
+  // if nothing matches the conditions, return null. meaning nothing was pressed
+  return null;
+};
 
 const handleResize = () => {
   // canvas will resize, not just the camera stream
@@ -196,23 +226,28 @@ class Piece {
   }
   // add method for seeing if the piece is close to the correct location
   isClose() {
-      // calculate the distance to correct location and see if it is under a 33% threshhold
-      if (distance({x:this.x,y:this.y},
-        {x:this.xCorrect,y:this.yCorrect})<this.width/3) {
-            return true;
-        }
-        return false;
+    // calculate the distance to correct location and see if it is under a 33% threshhold
+    if (
+      distance(
+        { x: this.x, y: this.y },
+        { x: this.xCorrect, y: this.yCorrect }
+      ) <
+      this.width / 3
+    ) {
+      return true;
+    }
+    return false;
   }
-  // add method for snapping pieces into place 
+  // add method for snapping pieces into place
   snap() {
-      this.x=this.xCorrect;
-      this.y=this.yCorrect;
+    this.x = this.xCorrect;
+    this.y = this.yCorrect;
   }
 }
 
 // measure distance using a consequence of Pythagorean Theorem
 const distance = (p1, p2) => {
-    return Math.sqrt(
-        (p1.x-p2.x)*(p1.x-p2.x)+
-        (p1.x-p2.x)*(p1.y-p2.y));
-}
+  return Math.sqrt(
+    (p1.x - p2.x) * (p1.x - p2.x) + (p1.x - p2.x) * (p1.y - p2.y)
+  );
+};
