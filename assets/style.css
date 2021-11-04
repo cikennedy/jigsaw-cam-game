@@ -1,0 +1,6 @@
+body {
+    /* remove white border space */
+    margin: 0;
+    /* remove scroll bars */
+    overflow: hidden;
+}

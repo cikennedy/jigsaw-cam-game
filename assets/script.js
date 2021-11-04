@@ -31,5 +31,9 @@ const main = () => {
 
 // function to draw video onto canvas
 const updateCanvas = () => {
+    // use drawImage method to draw image onto canvas, start from 0,0 = top left corner
     CONTEXT.drawImage(VIDEO,0,0);
+    // requestAnimationFrame method will call the function recursively many times per second to provide a live image
+    window.requestAnimationFrame(updateCanvas);
+    
 }
