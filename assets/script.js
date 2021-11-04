@@ -64,6 +64,11 @@ const handleResize = () => {
 const updateCanvas = () => {
   // use drawImage method to draw image onto canvas
   CONTEXT.drawImage(VIDEO, SIZE.x, SIZE.y, SIZE.width, SIZE.height);
+
+  // iterate through the pieces and call the draw method using the global context
+  for (let i=0; i<PIECES.length; i++) {
+      PIECES[i].draw(CONTEXT);
+  }
   // requestAnimationFrame method will call the function recursively many times per second to provide a live image
   window.requestAnimationFrame(updateCanvas);
 };
@@ -84,10 +89,15 @@ class Piece{
     constructor(rowIndex, colIndex) {
         this.rowIndex=rowIndex;
         this.colIndex=colIndex;
+        this.x=SIZE.x+SIZE.width*this.colIndex/SIZE.columns;
+        this.y=SIZE.y+SIZE.height*this.rowIndex/SIZE.rows;
+        this.width=SIZE.width/SIZE.columns;
+        this.height=SIZE.height/SIZE.rows;
     }
     // to be able to draw the pieces, use draw method using context as a parameter
     draw(context) {
         context.beginPath();
-        context.rect()
+        context.rect(this.x, this.y, this.width, this.height);
+        context.stroke();
     }
 }
