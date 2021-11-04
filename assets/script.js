@@ -13,6 +13,9 @@ let SIZE = { x: 0, y: 0, width: 0, height: 0, rows: 3, columns: 3 };
 let PIECES = [];
 // initialize with null or if no piece is pressed
 let SELECTED_PIECE = null;
+// Keep track of start and end time 
+let START_TIME = null;
+let END_TIME = null;
 
 const main = () => {
   CANVAS = document.getElementById("myCanvas");
@@ -44,6 +47,30 @@ const main = () => {
       alert("Camera error: " + err);
     });
 };
+
+const setDifficulty = () => {
+    let diff=document.getElementById("difficulty").value;
+    switch(diff) {
+        case "easy":
+            initializePieces(3,3);
+            break;
+        case "medium":
+            initializePieces(6,6);
+            break;
+        case "hard":
+            initializePieces(12,12);
+            break;
+        case "impossible":
+            initializePieces(35,30);
+            break;
+    }
+}
+
+const restart = () => {
+    START_TIME=new Date().getTime();
+    END_TIME=null;
+    randomizePieces();
+}
 
 // adding event listeners
 const addEventListeners = () => {

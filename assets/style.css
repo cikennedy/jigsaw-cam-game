@@ -6,3 +6,8 @@ body {
     /* disable refresh on mobile devices */
     overscroll-behavior: none;
 }
+
+#menuItems {
+    position: absolute;
+    top: 0;
+}
