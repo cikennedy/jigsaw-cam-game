@@ -3,4 +3,6 @@ body {
     margin: 0;
     /* remove scroll bars */
     overflow: hidden;
+    /* disable refresh on mobile devices */
+    overscroll-behavior: none;
 }
