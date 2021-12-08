@@ -16,6 +16,7 @@ let SELECTED_PIECE = null;
 // Keep track of start and end time 
 let START_TIME = null;
 let END_TIME = null;
+// change
 
 const main = () => {
   CANVAS = document.getElementById("myCanvas");
