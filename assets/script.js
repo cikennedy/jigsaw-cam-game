@@ -73,6 +73,7 @@ const restart = () => {
     // end time is set to null because we just started playing. also randomize pieces 
     END_TIME=null;
     randomizePieces();
+    document.getElementById("menuItems").style.display="none";
 }
 
 // 

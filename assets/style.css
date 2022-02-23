@@ -5,6 +5,7 @@ body {
     overflow: hidden;
     /* disable refresh on mobile devices */
     overscroll-behavior: none;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 #menuItems {
@@ -16,15 +17,35 @@ body {
     text-align: center;
     padding: 5vmin;
     border: 1vmin rgba(0,0,0,0.6) solid;
+    font-size: 7vmin;
 }
 
 button {
     font-size: 7vmin;
     background: rgb(123, 146, 196);
     color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    border: none;
+    border-radius: 1vmin;
 }
 
 button:hover {
     background: orange;
     color: black;
+}
+
+select {
+    font-size: 7vmin;
+    cursor: pointer;
+    border: none;
+    border-radius: 1vmin;
+    outline: none;
+}
+
+#time {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform:translate(-50%);
 }
