@@ -40,7 +40,7 @@ const main = () => {
         handleResize();
         // window.addEventListener("resize", handleResize);
         initializePieces(SIZE.rows, SIZE.columns);
-        updateCanvas();
+        updateGame();
       };
       // define errors if camera not allowed or if another error arises
     })
@@ -67,10 +67,44 @@ const setDifficulty = () => {
     }
 }
 
+// restart function will set the start time variable to the current timestamp
 const restart = () => {
     START_TIME=new Date().getTime();
+    // end time is set to null because we just started playing. also randomize pieces 
     END_TIME=null;
     randomizePieces();
+}
+
+// 
+const updateTime = () => {
+  // first gets the current time for the system
+  let now=new Date().getTime();
+  // take the div we defined earlier to hold this value and sets the innerHTML to the difference between now and the start time 
+  if(START_TIME!=null){
+    document.getElementById("time").innerHTML=formatTime(now-START_TIME);
+  }
+}
+
+const isComplete = () => {
+  
+}
+
+const formatTime = (milliseconds) => {
+  let seconds=Math.floor(milliseconds/1000);
+  // counting seconds, minutes, hours
+  let s=Math.floor(seconds%60);
+  let m=Math.floor((seconds%(60*60))/60);
+  let h=Math.floor((seconds%(60*60*24))/(60*60));
+
+  let formattedTime=h.toString().padStart(2, '0');
+  formattedTime+=":";
+  let formattedTime=m.toString().padStart(2, '0');
+  formattedTime+=":";
+  let formattedTime=s.toString().padStart(2, '0');
+  formattedTime+=":";
+
+  return formattedTime;
+
 }
 
 // adding event listeners
@@ -98,7 +132,8 @@ const onMouseDown = (e) => {
     SELECTED_PIECE.offset = {
       x: e.x - SELECTED_PIECE.x,
       y: e.y - SELECTED_PIECE.y,
-    };
+    }
+    SELECTED_PIECE.correct=false;
   }
 };
 
@@ -173,7 +208,7 @@ const handleResize = () => {
 };
 
 // function to draw video onto canvas
-const updateCanvas = () => {
+const updateGame = () => {
   // clear the canvas
   CONTEXT.clearRect(0, 0, CANVAS.width, CANVAS.height);
   // 50% transparency
@@ -188,8 +223,10 @@ const updateCanvas = () => {
   for (let i = 0; i < PIECES.length; i++) {
     PIECES[i].draw(CONTEXT);
   }
+  // call the updateTime function as this is called on every frame
+  updateTime();
   // requestAnimationFrame method will call the function recursively many times per second to provide a live image
-  window.requestAnimationFrame(updateCanvas);
+  window.requestAnimationFrame(updateGame);
 };
 
 const initializePieces = (rows, cols) => {
@@ -217,6 +254,7 @@ const randomizePieces = () => {
     };
     PIECES[i].x = loc.x;
     PIECES[i].y = loc.y;
+    PIECES[i].correct=false;
   }
 };
 
@@ -231,6 +269,7 @@ class Piece {
     this.height = SIZE.height / SIZE.rows;
     this.xCorrect = this.x;
     this.yCorrect = this.y;
+    this.correct=true;
   }
   // to be able to draw the pieces, use draw method using context as a parameter
   draw(context) {
@@ -270,6 +309,7 @@ class Piece {
   snap() {
     this.x = this.xCorrect;
     this.y = this.yCorrect;
+    this.correct=true;
   }
 }
 
