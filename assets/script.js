@@ -81,12 +81,24 @@ const updateTime = () => {
   let now=new Date().getTime();
   // take the div we defined earlier to hold this value and sets the innerHTML to the difference between now and the start time 
   if(START_TIME!=null){
-    document.getElementById("time").innerHTML=formatTime(now-START_TIME);
+    // if an end time is available, then that is shown, not the difference to the current time
+    if(END_TIME!=null){
+    document.getElementById("time").innerHTML=formatTime(END_TIME-START_TIME);
+    } else {
+      document.getElementById("time").innerHTML=formatTime(now-START_TIME);
+      }
   }
 }
 
 const isComplete = () => {
-  
+  // for loop for all pieces
+  for (let i=0; i<PIECES.length; i++){
+    // if even one piece is false, return false
+      if(PIECES[i].correct==false) {
+        return false;
+      }
+  }
+  return true;
 }
 
 const formatTime = (milliseconds) => {
@@ -150,6 +162,14 @@ const onMouseUp = () => {
   if (SELECTED_PIECE.isClose()) {
     // snaps as player cannot be expected to drop on the exact pixels
     SELECTED_PIECE.snap();
+    // game can only be completed when the mouse is released
+    // we want to also check that the end time is null because the player would still be able 
+    // to move pieces around after the game is over
+    if (isComplete() && END_TIME==null) {
+      // set the end time to the current time 
+      let now=new Date().getTime();
+      END_TIME=now;
+    }
   }
   SELECTED_PIECE = null;
 };
