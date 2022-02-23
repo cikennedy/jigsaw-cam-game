@@ -110,10 +110,9 @@ const formatTime = (milliseconds) => {
 
   let formattedTime=h.toString().padStart(2, '0');
   formattedTime+=":";
-  let formattedTime=m.toString().padStart(2, '0');
+  formattedTime+=m.toString().padStart(2, '0');
   formattedTime+=":";
-  let formattedTime=s.toString().padStart(2, '0');
-  formattedTime+=":";
+  formattedTime+=s.toString().padStart(2, '0');
 
   return formattedTime;
 
