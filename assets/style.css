@@ -38,7 +38,7 @@ button:hover {
 select {
     font-size: 7vmin;
     cursor: pointer;
-    border: none;
+    border: 2px solid black;
     border-radius: 1vmin;
     outline: none;
 }
@@ -49,3 +49,5 @@ select {
     left: 50%;
     transform:translate(-50%);
 }
+
+/* 42 */

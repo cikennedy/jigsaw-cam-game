@@ -16,7 +16,8 @@ let SELECTED_PIECE = null;
 // Keep track of start and end time 
 let START_TIME = null;
 let END_TIME = null;
-// change
+// add file and change file name below
+let POP_SOUND= new Audio('pop.mp3');
 
 const main = () => {
   CANVAS = document.getElementById("myCanvas");
