@@ -17,7 +17,7 @@ let SELECTED_PIECE = null;
 let START_TIME = null;
 let END_TIME = null;
 // add file and change file name below
-let POP_SOUND= new Audio('pop.m4a');
+let POP_SOUND= new Audio('./assets/pop.m4a');
 // this will play whenever a piece is correctly placed
 POP_SOUND.volume=0.1;
 // synthesize sounds in javascript 
@@ -284,10 +284,11 @@ const randomizePieces = () => {
       // scaled by the canvas width and height (subtracted by piece width/height)
       x: Math.random() * (CANVAS.width - PIECES[i].width),
       y: Math.random() * (CANVAS.height - PIECES[i].height),
-    };
+    }
     PIECES[i].x = loc.x;
     PIECES[i].y = loc.y;
-    PIECES[i].correct=false;
+    // comment this out to randomize
+    PIECES[i].correct=false; 
   }
 };
 
