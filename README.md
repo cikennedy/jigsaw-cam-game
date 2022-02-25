@@ -9,6 +9,8 @@
 
   * [Installation](#installation)
 
+  * [To-Do](#to-do)
+
   * [Usage](#usage)
 
   * [Credits](#credits)
@@ -28,6 +30,16 @@
   ## Installation
 
   For this project to run properly, install the necessary dependencies by using the following terminal command: npm i
+
+  ## To-Do
+
+  * Add logo, finish styling
+  * Test game for bugs 
+  * MySQL database
+  * PHP web server
+  * Cropping
+  * Advanced testing
+
 
   ## Usage
 
