@@ -20,6 +20,14 @@ let END_TIME = null;
 let POP_SOUND= new Audio('pop.m4a');
 // this will play whenever a piece is correctly placed
 POP_SOUND.volume=0.1;
+// synthesize sounds in javascript 
+let AUDIO_CONTEXT=new (AudioContext||webkitAudioContext||window.webkitAudioContext)();
+// keys playing three melodies, below are their frequencies 
+let keys={
+  DO: 261.6,
+  RE: 293.7,
+  MI: 329.6
+}
 
 const main = () => {
   CANVAS = document.getElementById("myCanvas");
@@ -172,6 +180,8 @@ const onMouseUp = () => {
       // set the end time to the current time 
       let now=new Date().getTime();
       END_TIME=now;
+      // add delay for the playMelody function so that the popping sound does not overlap with the game complete noise 
+      setTimeout(playMelody, 500);
     }
   }
   SELECTED_PIECE = null;
@@ -343,3 +353,49 @@ const distance = (p1, p2) => {
     (p1.x - p2.x) * (p1.x - p2.x) + (p1.x - p2.x) * (p1.y - p2.y)
   );
 };
+
+// function to play a single note 
+const playNote = (key,duration) => {
+  // define oscillator which is responsible for generating the sound with the given frequency
+  let osc=AUDIO_CONTEXT.createOscillator();
+  // set the frequency as to the value coming as a parameter
+  osc.frequency.value=key;
+  // start the oscillator at the current time
+  osc.start(AUDIO_CONTEXT.currentTime);
+  // tell it to stop after the specified duration
+  // setTimeout expects it in milliseconds and the stop method expects it in seconds, so divide by 1000
+  osc.stop(AUDIO_CONTEXT.currentTime+duration/1000);
+  
+  // sound more like a piano using an envelope to control the game (think of it as audio in a sense)
+  let envelope=AUDIO_CONTEXT.createGain();
+  // connect to default speakers via envelope
+  osc.connect(envelope);
+  // change wave type to triangle (from the default sin)
+  osc.type='triangle';
+  // connect the envelope to the destination 
+  envelope.connect(AUDIO_CONTEXT.destination);
+  // the piano sound has a powerful attack which means that it needs to go to 0 to maximum gain quickly
+  envelope.gain.setValueAtTime(0,AUDIO_CONTEXT.currentTime);
+  // max is 0.5 instead of 1 so it is not too loud, doing this in 0.1 seconds
+  envelope.gain.linearRampToValueAtTime(0.5,AUDIO_CONTEXT.currentTime+0.1);
+  envelope.gain.linearRampToValueAtTime(0,AUDIO_CONTEXT.currentTime+duration/1000);
+
+  // good to disconnect the oscillator at the same time otherwise there may be background noise on the browser
+  setTimeout(function(){
+    osc.disconnect();
+  },duration);
+}
+
+// start with simple note playing for 300 ms, followed by notes playing for a specified time + the time from the start time 
+const playMelody = () => {
+  playNote(keys.MI,300);
+  setTimeout(function(){
+    playNote(keys.DO,300);
+  }, 300);
+  setTimeout(function(){
+    playNote(keys.MI,150);
+  }, 450);
+  setTimeout(function(){
+    playNote(keys.MI,600);
+  }, 600);
+}
