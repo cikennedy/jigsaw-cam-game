@@ -18,6 +18,8 @@ let START_TIME = null;
 let END_TIME = null;
 // add file and change file name below
 let POP_SOUND= new Audio('pop.m4a');
+// this will play whenever a piece is correctly placed
+POP_SOUND.volume=0.1;
 
 const main = () => {
   CANVAS = document.getElementById("myCanvas");
@@ -331,6 +333,7 @@ class Piece {
     this.x = this.xCorrect;
     this.y = this.yCorrect;
     this.correct=true;
+    POP_SOUND.play();
   }
 }
 
