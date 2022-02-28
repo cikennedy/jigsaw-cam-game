@@ -10,15 +10,20 @@ if(!$lnk)
 
 mysqli_select_db($lnk, "puzzlecam") or die ("failed to select DB");
 
+// call the function and print scores
+$result=getAllScores($lnk);
+print_r($result);
+
 // scores for each difficulty level using their difficulty as a parameter of the function 
-$easy=getScoresWithDifficulty("Easy", $lnk);
-print_r($easy);
-$medium=getScoresWithDifficulty("Medium", $lnk);
-print_r($medium);
-$hard=getScoresWithDifficulty("Hard", $lnk);
-print_r($hard);
-$impossible=getScoresWithDifficulty("Impossible", $lnk);
-print_r($impossible);
+function getAllScores($lnk){
+    $easy=getScoresWithDifficulty("Easy", $lnk);
+    $medium=getScoresWithDifficulty("Medium", $lnk);
+    $hard=getScoresWithDifficulty("Hard", $lnk);
+    $impossible=getScoresWithDifficulty("Impossible", $lnk);
+    // return as an associative array
+    // associative arrays are like js objects where we can give names to the keys 
+    return array("easy"=>$easy,"medium"=>$medium,"hard"=>$hard,"impossible"=>$impossible);
+}
 
 // select entries from scorer's table by difficulty
 // . is used for concatanation in php
