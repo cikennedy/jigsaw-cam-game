@@ -12,7 +12,8 @@ mysqli_select_db($lnk, "puzzlecam") or die ("failed to select DB");
 
 // call the function and print scores
 $result=getAllScores($lnk);
-print_r($result);
+// use echo and convert to json 
+echo json_encode($result);
 
 // scores for each difficulty level using their difficulty as a parameter of the function 
 function getAllScores($lnk){
