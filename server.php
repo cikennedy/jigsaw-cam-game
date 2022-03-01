@@ -19,7 +19,7 @@ $info=array(
 if(addScore($info,$lnk)){
     echo "Score inserted!";
 }else{
-    echo "Score insertion failed!"
+    echo "Score insertion failed!";
 }
 
 // function to add scores
