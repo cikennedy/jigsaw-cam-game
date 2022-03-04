@@ -425,7 +425,7 @@ const closeScores = () => {
 }
 
 const getScores = () => {
-  fetch("../server.php").then(function(response){
+  fetch("server.php").then(function(response){
     response.json().then(function(data){
       document.getElementById("scoresContainer").innerHTML=
       formatScores(data);
@@ -434,7 +434,21 @@ const getScores = () => {
 }
 
 const saveScore = () => {
-  
+  const time=END_TIME-START_TIME;
+  const name=document.getElementById("name").value;
+  if(name==""){
+    alert("Please enter your name");
+    return;
+  }
+  const difficulty=document.getElementById("difficulty").value;
+
+  fetch('server.php?info={"name":"'+name+'",'+
+  '"time":'+time+','+'"difficulty":"'+difficulty+'"}')
+  .then(function(response){
+    document.getElementById('saveBtn').innerHTML="Okay!"
+  });
+
+  document.getElementById('saveBtn').disabled=true;
 }
 
 const formatScores = (data) => {
