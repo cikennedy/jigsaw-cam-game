@@ -419,6 +419,10 @@ const showScores = () => {
   getScores();
 }
 
+const closeScores = () => {
+  
+}
+
 const getScores = () => {
   fetch("../server.php").then(function(response){
     response.json().then(function(data){
