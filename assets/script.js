@@ -411,3 +411,19 @@ const showMenu = () => {
   document.getElementById("endScreen").style.display="none";
   document.getElementById("menuItems").style.display="block";
 }
+
+const showScores = () => {
+  document.getElementById("endScreen").style.display="none";
+  document.getElementById("scoresScreen").style.display="block";
+  document.getElementById("scoresContainer").innerHTML="Loading...";
+  getScores();
+}
+
+const getScores = () => {
+  fetch("../server.php").then(function(response){
+    response.json().then(function(data){
+      document.getElementById("scoresContainer").innerHTML=
+      formatScores(data);
+    });
+  });
+}
