@@ -420,7 +420,8 @@ const showScores = () => {
 }
 
 const closeScores = () => {
-  
+  document.getElementById("endScreen").style.display="block";
+  document.getElementById("scoresScreen").style.display="none";
 }
 
 const getScores = () => {
