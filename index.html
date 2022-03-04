@@ -10,7 +10,7 @@
 </head>
 <body onload="main()">
     <canvas id="myCanvas"></canvas>
-    <div id="menuItems">
+    <div id="menuItems" class="menu">
         <div id="menu">
             <div id="controls">
                 Difficulty: <select name="" id="difficulty" onchange="setDifficulty()">
@@ -30,3 +30,19 @@
     <div id="time"></div>
 </body>
 </html>
+
+<div id="endScreen" class="menu">
+    <div id="scoreValue"></div>
+    <input type="text" id="name" placeholder="your name">
+    <button id="saveBtn" onclick="saveScore()">Save Score</button>
+    <br>
+    <br>
+    <button onclick="showScores()">Show Scores</button>
+    <button onclick="showMenu()">Menu</button>
+</div>
+
+<div id="scoresScreen" class="menu">
+    <div id="scoresContainer"></div>
+    <br>
+    <button onclick="closeScores()">Back</button>
+</div>
