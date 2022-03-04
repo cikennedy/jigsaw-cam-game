@@ -433,6 +433,10 @@ const getScores = () => {
   });
 }
 
+const saveScore = () => {
+  
+}
+
 const formatScores = (data) => {
   let html="<table style='width:100%;text-align:center;'>";
 
