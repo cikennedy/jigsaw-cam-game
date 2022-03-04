@@ -406,3 +406,8 @@ const showEndScreen = () => {
   document.getElementById("scoreValue").innerHTML="Score: "+time;
   document.getElementById("endScreen").style.display="block";
 }
+
+const showMenu = () => {
+  document.getElementById("endScreen").style.display="none";
+  document.getElementById("menuItems").style.display="block";
+}
