@@ -10,7 +10,20 @@ if(!$lnk)
 
 mysqli_select_db($lnk, "puzzlecam") or die ("failed to select DB");
 
-
+// code is not secure, to make it secure = use a prepared statement to protect against SQL injections
+// ask people to register, confirm their account in an email 
+// add authentication and even a captcha if you really want 
+if(isset($_GET["info"])){
+    $info=json_decode($_GET["info"],true);
+    if(addScore($info,$lnk)){
+        echo "Score inserted.";
+    }else{
+        echo "Score insertion failed.";
+    }
+}else{
+    $result=getAllScores($lnk);
+    echo json_encode($result);
+}
 
 // function to add scores
 function addScore($info,$lnk) {
