@@ -10,17 +10,7 @@ if(!$lnk)
 
 mysqli_select_db($lnk, "puzzlecam") or die ("failed to select DB");
 
-// test addScore function
-$info=array(
-    "name"=>"Chris",
-    "time"=>"12345",
-    "difficulty"=>"impossible"
-);
-if(addScore($info,$lnk)){
-    echo "Score inserted!";
-}else{
-    echo "Score insertion failed!";
-}
+
 
 // function to add scores
 function addScore($info,$lnk) {
@@ -33,15 +23,10 @@ function addScore($info,$lnk) {
         return true;
 }
 
-function addScore($info,$lnk){
-    $query="INSERT INTO Scores (Name,Time,Difficulty) VALUES ".
-        "('".$info["name"]."',12345,'Impossible')";
-}
-
 // call the function and print scores
-// $result=getAllScores($lnk);
+$result=getAllScores($lnk);
 // use echo and convert to json 
-// echo json_encode($result);
+echo json_encode($result);
 
 // scores for each difficulty level using their difficulty as a parameter of the function 
 function getAllScores($lnk){
