@@ -400,3 +400,9 @@ const playMelody = () => {
     playNote(keys.MI,600);
   }, 600);
 }
+
+const showEndScreen = () => {
+  const time = END_TIME-START_TIME;
+  document.getElementById("scoreValue").innerHTML="Score: "+time;
+  document.getElementById("endScreen").style.display="block";
+}
