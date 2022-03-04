@@ -50,4 +50,9 @@ select {
     transform:translate(-50%);
 }
 
-/* 1:06 */
+#scoresContainer {
+    height: 43vh;
+    overflow: auto;
+}
+
+/* 1:16:43 */

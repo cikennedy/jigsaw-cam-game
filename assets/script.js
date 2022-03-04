@@ -427,3 +427,26 @@ const getScores = () => {
     });
   });
 }
+
+const formatScores = (data) => {
+  let html="<table style='width:100%;text-align:center;'>";
+
+  html+=formatScoreTable(data["easy"],"Easy");
+  html+=formatScoreTable(data["medium"],"Medium");
+  html+=formatScoreTable(data["hard"],"Hard");
+  html+=formatScoreTable(data["impossible"],"Impossible");
+
+  return html;
+}
+
+const formatScoreTable = (data,header) => {
+  html+="<tr style='background:rgb(123,146,196);color:white'>";
+  html+="<td></td><td><b>"+header+"</b></td><td><b>Time</b></td></tr>";
+
+  for(let i=0;i<data.length;i++){
+    html+="<tr>";
+    html+="<td>"+(i+1)+".</td><td title='"+data["easy"][i]["Name"]+
+      "'>"+data[i]["Name"]+"</td><td>"+data[i]["Time"]+
+      "</td></tr>";
+  }
+}
