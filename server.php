@@ -33,11 +33,15 @@ function addScore($info,$lnk) {
         return true;
 }
 
+function addScore($info,$lnk){
+    $query="INSERT INTO Scores (Name,Time,Difficulty) VALUES ".
+        "('".$info["name"]."',12345,'Impossible')";
+}
 
 // call the function and print scores
-$result=getAllScores($lnk);
+// $result=getAllScores($lnk);
 // use echo and convert to json 
-echo json_encode($result);
+// echo json_encode($result);
 
 // scores for each difficulty level using their difficulty as a parameter of the function 
 function getAllScores($lnk){
