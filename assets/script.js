@@ -403,7 +403,7 @@ const playMelody = () => {
 }
 
 const showEndScreen = () => {
-  const time = END_TIME-START_TIME;
+  const time = Math.floor((END_TIME-START_TIME)/1000);
   document.getElementById("scoreValue").innerHTML="Score: "+time;
   document.getElementById("endScreen").style.display="block";
   document.getElementById("saveBtn").innerHTML="Save";
@@ -472,7 +472,7 @@ const formatScoreTable = (data,header) => {
   for(let i=0;i<data.length;i++){
     html+="<tr>";
     html+="<td>"+(i+1)+".</td><td title='"+data["easy"][i]["Name"]+
-      "'>"+data[i]["Name"]+"</td><td>"+data[i]["Time"]+
+      "'>"+data[i]["Name"]+"</td><td>"+Math.floor(data[i]["Time"]/1000)+
       "</td></tr>";
   }
 }
