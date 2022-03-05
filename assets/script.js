@@ -182,6 +182,7 @@ const onMouseUp = () => {
       END_TIME=now;
       // add delay for the playMelody function so that the popping sound does not overlap with the game complete noise 
       setTimeout(playMelody, 500);
+      showEndScreen();
     }
   }
   SELECTED_PIECE = null;
@@ -405,6 +406,8 @@ const showEndScreen = () => {
   const time = END_TIME-START_TIME;
   document.getElementById("scoreValue").innerHTML="Score: "+time;
   document.getElementById("endScreen").style.display="block";
+  document.getElementById("saveBtn").innerHTML="Save";
+  document.getElementById("saveBtn").disabled=false;
 }
 
 const showMenu = () => {

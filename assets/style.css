@@ -35,6 +35,12 @@ button:hover {
     color: black;
 }
 
+button:disabled {
+    background: lightgrey;
+    color: gray;
+    cursor: default;
+}
+
 select {
     font-size: 7vmin;
     cursor: pointer;
