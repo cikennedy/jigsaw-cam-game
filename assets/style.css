@@ -61,4 +61,11 @@ select {
     overflow: auto;
 }
 
-/* 1:16:43 */
+input {
+    font-size: 7vmin;
+    border-radius: 1vmin;
+    width: 50%;
+    text-align: center;
+}
+
+/* 1:19:54
