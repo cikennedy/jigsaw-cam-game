@@ -275,6 +275,14 @@ const initializePieces = (rows, cols) => {
       PIECES.push(new Piece(i, j));
     }
   }
+
+  let cnt=0;
+  for(let i=0;i<SIZE.rows;i++){
+    for(let j=0;j<SIZE.columns;j++){
+      const piece=PIECES[cnt];
+      cnt++;
+    }
+  }
 };
 
 // randomize the location of the pieces
