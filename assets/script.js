@@ -280,6 +280,8 @@ const initializePieces = (rows, cols) => {
   for(let i=0;i<SIZE.rows;i++){
     for(let j=0;j<SIZE.columns;j++){
       const piece=PIECES[cnt];
+      // sign will be either + or - 1 to signify the tabs 
+      const sgn=(Math.random()-0.5)<0?-1:1;
       cnt++;
     }
   }
