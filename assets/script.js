@@ -282,6 +282,7 @@ const initializePieces = (rows, cols) => {
       const piece=PIECES[cnt];
       // sign will be either + or - 1 to signify the tabs 
       const sgn=(Math.random()-0.5)<0?-1:1;
+      piece.bottom=sgn*(Math.random()*0.4+0.3);
       cnt++;
     }
   }
