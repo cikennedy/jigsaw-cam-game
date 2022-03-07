@@ -280,9 +280,33 @@ const initializePieces = (rows, cols) => {
   for(let i=0;i<SIZE.rows;i++){
     for(let j=0;j<SIZE.columns;j++){
       const piece=PIECES[cnt];
-      // sign will be either + or - 1 to signify the tabs 
-      const sgn=(Math.random()-0.5)<0?-1:1;
-      piece.bottom=sgn*(Math.random()*0.4+0.3);
+      if(i==SIZE.rows-1){
+        piece.bottom=null;
+      }else{
+        // sign will be either + or - 1 to signify the tabs 
+        const sgn=(Math.random()-0.5)<0?-1:1;
+        // allow the piece to be between 0.3 and 0.7
+        piece.bottom=sgn*(Math.random()*0.4+0.3);
+      }
+
+      if(j=SIZE.rows-1){
+        piece.right=null;
+      }else{
+        const sgn=(Math.random()-0.5)<0?-1:1;
+        piece.right=sgn*(Math.random()*0.4+0.3);
+      }
+
+      if (j==0) {
+        piece.left=null;
+      } else {
+        piece.left==PIECES[cnt-1].right;
+      }
+
+      if (i==0){
+        piece.top=null;
+      } else {
+        piece.top=-PIECES[cnt-SIZE.columns].bottom;
+      }
       cnt++;
     }
   }
