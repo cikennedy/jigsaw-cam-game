@@ -358,7 +358,7 @@ class Piece {
       this.height
     );
 
-    context.rect(this.x, this.y, this.width, this.height);
+    // context.rect(this.x, this.y, this.width, this.height);
     context.stroke();
   }
   // add method for seeing if the piece is close to the correct location
