@@ -359,6 +359,11 @@ class Piece {
     );
 
     // context.rect(this.x, this.y, this.width, this.height);
+    context.moveTo(this.x,this.y);
+    context.lineTo(this.x+this.width,this.y);
+    context.lineTo(this.x+this.width,this.y+this.height);
+    context.lineTo(this.x,this.y+this.height);
+    context.lineTo(this.x,this.y);
     context.stroke();
   }
   // add method for seeing if the piece is close to the correct location
