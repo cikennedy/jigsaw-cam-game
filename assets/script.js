@@ -170,7 +170,7 @@ const onMouseMove = (e) => {
 
 const onMouseUp = () => {
   // snap the piece if it is near the correct location to give the player proper feedback
-  if (SELECTED_PIECE.isClose()) {
+  if (SELECTED_PIECE && SELECTED_PIECE.isClose()) {
     // snaps as player cannot be expected to drop on the exact pixels
     SELECTED_PIECE.snap();
     // game can only be completed when the mouse is released
@@ -358,11 +358,33 @@ class Piece {
       this.height
     );
 
+    const sz=Math.min(this.width,this.height);
+    const neck=0.1*sz;
+    const tabWidth=0.2*sz;
+    const tabHeight=0.2*sz;
+
     // context.rect(this.x, this.y, this.width, this.height);
+    // from top left
     context.moveTo(this.x,this.y);
+    // to top right
+    context.lineTo(this.x+this.width*Math.abs(this.top),
+      this.y-tabHeight*Math.sign(this.top));
     context.lineTo(this.x+this.width,this.y);
+
+    // to bottom right
+    context.lineTo(this.x+this.width-tabHeight*Math.sign(this.right),
+      this.y+this.height*Math.abs(this.right));
     context.lineTo(this.x+this.width,this.y+this.height);
+
+    // to bottom left
+    context.lineTo(this.x+this.width*Math.abs(this.bottom),
+      this.y+this.height+tabHeight*Math.sign(this.bottom));
     context.lineTo(this.x,this.y+this.height);
+
+
+    // to top left
+    context.lineTo(this.x+tabHeight*Math.sign(this.left),
+      this.y+this.height*Math.abs(this.left));
     context.lineTo(this.x,this.y);
     context.stroke();
   }
