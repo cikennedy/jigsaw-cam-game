@@ -368,34 +368,42 @@ class Piece {
     context.moveTo(this.x,this.y);
 
     // to top right
-    context.lineTo(this.x+this.width*Math.abs(this.top)-neck,this.y);
-    context.lineTo(this.x+this.width*Math.abs(this.top),
-      this.y-tabHeight*Math.sign(this.top));
-    context.lineTo(this.x+this.width*Math.abs(this.top)+neck,this.y);
+    if(this.top){
+      context.lineTo(this.x+this.width*Math.abs(this.top)-neck,this.y);
+      context.lineTo(this.x+this.width*Math.abs(this.top),
+        this.y-tabHeight*Math.sign(this.top));
+      context.lineTo(this.x+this.width*Math.abs(this.top)+neck,this.y);
+    }
     context.lineTo(this.x+this.width,this.y);
 
     // to bottom right
-    context.lineTo(this.x+this.width,this.y+this.height*Math.abs(this.right)-neck);
-    context.lineTo(this.x+this.width-tabHeight*Math.sign(this.right),
-      this.y+this.height*Math.abs(this.right));
-    context.lineTo(this.x+this.width,this.y+this.height*Math.abs(this.right)+neck);
+    if(this.right){
+      context.lineTo(this.x+this.width,this.y+this.height*Math.abs(this.right)-neck);
+      context.lineTo(this.x+this.width-tabHeight*Math.sign(this.right),
+        this.y+this.height*Math.abs(this.right));
+      context.lineTo(this.x+this.width,this.y+this.height*Math.abs(this.right)+neck);
+    }
     context.lineTo(this.x+this.width,this.y+this.height);
 
 
     // to bottom left
-    context.lineTo(this.x+this.width*Math.abs(this.bottom)+neck,
-      this.y+this.height);
-    context.lineTo(this.x+this.width*Math.abs(this.bottom),
-      this.y+this.height+tabHeight*Math.sign(this.bottom));
-    context.lineTo(this.x+this.width*Math.abs(this.bottom)-neck,
-      this.y+this.height);
+    if(this.bottom){
+      context.lineTo(this.x+this.width*Math.abs(this.bottom)+neck,
+        this.y+this.height);
+      context.lineTo(this.x+this.width*Math.abs(this.bottom),
+        this.y+this.height+tabHeight*Math.sign(this.bottom));
+      context.lineTo(this.x+this.width*Math.abs(this.bottom)-neck,
+        this.y+this.height);
+    }
     context.lineTo(this.x,this.y+this.height);
 
     // to top left
-    context.lineTo(this.x,this.y+this.height*Math.abs(this.left)+neck);
-    context.lineTo(this.x+tabHeight*Math.sign(this.left),
-      this.y+this.height*Math.abs(this.left));
+    if(this.left){
+      context.lineTo(this.x,this.y+this.height*Math.abs(this.left)+neck);
+      context.lineTo(this.x+tabHeight*Math.sign(this.left),
+        this.y+this.height*Math.abs(this.left));
       context.lineTo(this.x,this.y+this.height*Math.abs(this.left)-neck);
+    }
     context.lineTo(this.x,this.y);
     context.stroke();
   }
