@@ -11,6 +11,8 @@
 
   * [To-Do](#to-do)
 
+  * [Debugging](#debugging)
+
   * [Usage](#usage)
 
   * [Credits](#credits)
@@ -40,6 +42,11 @@
   * Cropping
   * Advanced testing
 
+  ## Debugging
+
+  * Menu screen styling
+  * Randomize pieces function 
+  * Fetch API, URL scheme file is not supported
 
   ## Usage
 
@@ -48,6 +55,10 @@
   ## Credits
 
   tutorial link here
+
+
+  /* 1:19:54
+  /* 1:27
 
   ## License
 
