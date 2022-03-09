@@ -397,6 +397,7 @@ class Piece {
     // to bottom right
     if(this.right){
       context.lineTo(this.x+this.width,this.y+this.height*Math.abs(this.right)-neck);
+
       context.bezierCurveTo(
         this.x+this.width-tabHeight*Math.sign(this.right)*0.2,
         this.y+this.height*Math.abs(this.right)-neck,
@@ -407,12 +408,13 @@ class Piece {
         this.x+this.width-tabHeight*Math.sign(this.right),
         this.y+this.height*Math.abs(this.right)
       );
+
       context.bezierCurveTo(
         this.x+this.width-tabHeight*Math.sign(this.right)*0.2,
-        this.y+this.height*Math.abs(this.right)-neck,
+        this.y+this.height*Math.abs(this.right)+neck,
 
         this.x+this.width-tabHeight*Math.sign(this.right),
-        this.y+this.height*Math.abs(this.right)-tabWidth,
+        this.y+this.height*Math.abs(this.right)+tabWidth,
 
         this.x+this.width,
         this.y+this.height*Math.abs(this.right)+neck
@@ -431,7 +433,7 @@ class Piece {
         this.y+this.height+tabHeight*Math.sign(this.bottom)*0.2,
 
         this.x+this.width*Math.abs(this.bottom)+tabWidth,
-        this.y+this.height+tabHeight+Math.sign(this.bottom),
+        this.y+this.height+tabHeight*Math.sign(this.bottom),
 
         this.x+this.width*Math.abs(this.bottom),
         this.y+this.height+tabHeight*Math.sign(this.bottom)
