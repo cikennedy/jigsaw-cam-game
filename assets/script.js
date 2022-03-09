@@ -370,8 +370,16 @@ class Piece {
     // to top right
     if(this.top){
       context.lineTo(this.x+this.width*Math.abs(this.top)-neck,this.y);
-      context.lineTo(this.x+this.width*Math.abs(this.top),
-        this.y-tabHeight*Math.sign(this.top));
+      context.bezierCurveTo(
+        this.x+this.width*Math.abs(this.top)-neck,
+        this.y-tabHeight*Math.sign(this.top)*0.2,
+
+        this.x+this.width*Math.abs(this.top)-tabWidth,
+        this.y-tabHeight*Math.sign(this.top),
+
+        this.x+this.width*Math.abs(this.top),
+        this.y-tabHeight*Math.sign(this.top)
+      );
       context.lineTo(this.x+this.width*Math.abs(this.top)+neck,this.y);
     }
     context.lineTo(this.x+this.width,this.y);
