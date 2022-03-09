@@ -359,8 +359,8 @@ class Piece {
     );
 
     const sz=Math.min(this.width,this.height);
-    const neck=0.1*sz;
-    const tabWidth=0.2*sz;
+    const neck=0.125*sz;
+    const tabWidth=0.25*sz;
     const tabHeight=0.2*sz;
 
     // context.rect(this.x, this.y, this.width, this.height);
