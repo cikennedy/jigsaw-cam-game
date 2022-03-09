@@ -289,7 +289,7 @@ const initializePieces = (rows, cols) => {
         piece.bottom=sgn*(Math.random()*0.4+0.3);
       }
 
-      if(j=SIZE.rows-1){
+      if(j==SIZE.columns-1){
         piece.right=null;
       }else{
         const sgn=(Math.random()-0.5)<0?-1:1;
@@ -299,7 +299,7 @@ const initializePieces = (rows, cols) => {
       if (j==0) {
         piece.left=null;
       } else {
-        piece.left==PIECES[cnt-1].right;
+        piece.left=-PIECES[cnt-1].right;
       }
 
       if (i==0){
