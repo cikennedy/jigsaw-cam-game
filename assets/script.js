@@ -258,7 +258,7 @@ const updateGame = () => {
 
   // iterate through the pieces and call the draw method using the global context
   for (let i = 0; i < PIECES.length; i++) {
-    PIECES[i].draw(CONTEXT);
+    PIECES[i].draw(CONTEXT,false);
   }
   // call the updateTime function as this is called on every frame
   updateTime();
