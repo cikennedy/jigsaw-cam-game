@@ -275,11 +275,16 @@ const initializePieces = (rows, cols) => {
   SIZE.columns = cols;
 
   PIECES = [];
+  const uniqueRandomColor = [];
   // iterate through the rows using i, rows using j
   for (let i = 0; i < SIZE.rows; i++) {
     for (let j = 0; j < SIZE.columns; j++) {
+      let color = getRandomColor();
+      while(uniqueRandomColor.includes(color)){
+        color=getRandomColor();
+      }
       // add a new piece using these two indeces
-      PIECES.push(new Piece(i, j));
+      PIECES.push(new Piece(i, j, color));
     }
   }
 
