@@ -464,7 +464,7 @@ class Piece {
       context.lineTo(this.x, this.y + this.height * Math.abs(this.left) + neck);
 
       context.bezierCurveTo(
-        this.x + tabHeight + Math.sign(this.left) * 0.2,
+        this.x + tabHeight * Math.sign(this.left) * 0.2,
         this.y + this.height * Math.abs(this.left) + neck,
 
         this.x + tabHeight * Math.sign(this.left),
