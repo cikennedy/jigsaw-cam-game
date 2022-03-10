@@ -13,21 +13,23 @@ let SIZE = { x: 0, y: 0, width: 0, height: 0, rows: 3, columns: 3 };
 let PIECES = [];
 // initialize with null or if no piece is pressed
 let SELECTED_PIECE = null;
-// Keep track of start and end time 
+// Keep track of start and end time
 let START_TIME = null;
 let END_TIME = null;
 // add file and change file name below
-let POP_SOUND= new Audio('./assets/pop.m4a');
+let POP_SOUND = new Audio("./assets/pop.m4a");
 // this will play whenever a piece is correctly placed
-POP_SOUND.volume=0.1;
-// synthesize sounds in javascript 
-let AUDIO_CONTEXT=new (AudioContext||webkitAudioContext||window.webkitAudioContext)();
-// keys playing three melodies, below are their frequencies 
-let keys={
+POP_SOUND.volume = 0.1;
+// synthesize sounds in javascript
+let AUDIO_CONTEXT = new (AudioContext ||
+  webkitAudioContext ||
+  window.webkitAudioContext)();
+// keys playing three melodies, below are their frequencies
+let keys = {
   DO: 261.6,
   RE: 293.7,
-  MI: 329.6
-}
+  MI: 329.6,
+};
 
 const main = () => {
   CANVAS = document.getElementById("myCanvas");
@@ -61,74 +63,75 @@ const main = () => {
 };
 
 const setDifficulty = () => {
-    let diff=document.getElementById("difficulty").value;
-    switch(diff) {
-        case "easy":
-            initializePieces(3,3);
-            break;
-        case "medium":
-            initializePieces(6,6);
-            break;
-        case "hard":
-            initializePieces(12,12);
-            break;
-        case "impossible":
-            initializePieces(35,30);
-            break;
-    }
-}
+  let diff = document.getElementById("difficulty").value;
+  switch (diff) {
+    case "easy":
+      initializePieces(3, 3);
+      break;
+    case "medium":
+      initializePieces(6, 6);
+      break;
+    case "hard":
+      initializePieces(12, 12);
+      break;
+    case "impossible":
+      initializePieces(35, 30);
+      break;
+  }
+};
 
 // restart function will set the start time variable to the current timestamp
 const restart = () => {
-    START_TIME=new Date().getTime();
-    // end time is set to null because we just started playing. also randomize pieces 
-    END_TIME=null;
-    randomizePieces();
-    document.getElementById("menuItems").style.display="none";
-}
+  START_TIME = new Date().getTime();
+  // end time is set to null because we just started playing. also randomize pieces
+  END_TIME = null;
+  randomizePieces();
+  document.getElementById("menuItems").style.display = "none";
+};
 
-// 
+//
 const updateTime = () => {
   // first gets the current time for the system
-  let now=new Date().getTime();
-  // take the div we defined earlier to hold this value and sets the innerHTML to the difference between now and the start time 
-  if(START_TIME!=null){
+  let now = new Date().getTime();
+  // take the div we defined earlier to hold this value and sets the innerHTML to the difference between now and the start time
+  if (START_TIME != null) {
     // if an end time is available, then that is shown, not the difference to the current time
-    if(END_TIME!=null){
-    document.getElementById("time").innerHTML=formatTime(END_TIME-START_TIME);
+    if (END_TIME != null) {
+      document.getElementById("time").innerHTML = formatTime(
+        END_TIME - START_TIME
+      );
     } else {
-      document.getElementById("time").innerHTML=formatTime(now-START_TIME);
-      }
+      document.getElementById("time").innerHTML = formatTime(now - START_TIME);
+    }
   }
-}
+};
 
 const isComplete = () => {
   // for loop for all pieces
-  for (let i=0; i<PIECES.length; i++){
+  for (let i = 0; i < PIECES.length; i++) {
     // if even one piece is false, return false
-      if(PIECES[i].correct==false) {
-        return false;
-      }
+    if (PIECES[i].correct == false) {
+      return false;
+    }
   }
   return true;
-}
+};
 
 const formatTime = (milliseconds) => {
-  let seconds=Math.floor(milliseconds/1000);
+  let seconds = Math.floor(milliseconds / 1000);
   // counting seconds, minutes, hours
-  let s=Math.floor(seconds%60);
-  let m=Math.floor((seconds%(60*60))/60);
-  let h=Math.floor((seconds%(60*60*24))/(60*60));
+  let s = Math.floor(seconds % 60);
+  let m = Math.floor((seconds % (60 * 60)) / 60);
+  let h = Math.floor((seconds % (60 * 60 * 24)) / (60 * 60));
 
-  let formattedTime=h.toString().padStart(2, '0');
-  formattedTime+=":";
-  formattedTime+=m.toString().padStart(2, '0');
-  formattedTime+=":";
-  formattedTime+=s.toString().padStart(2, '0');
+  let formattedTime = h.toString().padStart(2, "0");
+  formattedTime += ":";
+  formattedTime += m.toString().padStart(2, "0");
+  formattedTime += ":";
+  formattedTime += s.toString().padStart(2, "0");
 
   return formattedTime;
-
-}
+};
 
 // adding event listeners
 const addEventListeners = () => {
@@ -155,8 +158,8 @@ const onMouseDown = (e) => {
     SELECTED_PIECE.offset = {
       x: e.x - SELECTED_PIECE.x,
       y: e.y - SELECTED_PIECE.y,
-    }
-    SELECTED_PIECE.correct=false;
+    };
+    SELECTED_PIECE.correct = false;
   }
 };
 
@@ -174,13 +177,13 @@ const onMouseUp = () => {
     // snaps as player cannot be expected to drop on the exact pixels
     SELECTED_PIECE.snap();
     // game can only be completed when the mouse is released
-    // we want to also check that the end time is null because the player would still be able 
+    // we want to also check that the end time is null because the player would still be able
     // to move pieces around after the game is over
-    if (isComplete() && END_TIME==null) {
-      // set the end time to the current time 
-      let now=new Date().getTime();
-      END_TIME=now;
-      // add delay for the playMelody function so that the popping sound does not overlap with the game complete noise 
+    if (isComplete() && END_TIME == null) {
+      // set the end time to the current time
+      let now = new Date().getTime();
+      END_TIME = now;
+      // add delay for the playMelody function so that the popping sound does not overlap with the game complete noise
       setTimeout(playMelody, 500);
       showEndScreen();
     }
@@ -188,7 +191,7 @@ const onMouseUp = () => {
   SELECTED_PIECE = null;
 };
 
-// use mouse functions as callbacks for touch functions 
+// use mouse functions as callbacks for touch functions
 const onTouchStart = (e) => {
   let loc = { x: e.touches[0].clientX, y: e.touches[0].clientY };
   onMouseDown(loc);
@@ -264,60 +267,60 @@ const updateGame = () => {
 };
 
 const getRandomColor = () => {
-  const red=Math.floor(Math.random()*255);
-  const green=Math.floor(Math.random()*255);
-  const blue=Math.floor(Math.random()*255);
-  return "rgb("+red+","+green+","+blue+")";
-}
+  const red = Math.floor(Math.random() * 255);
+  const green = Math.floor(Math.random() * 255);
+  const blue = Math.floor(Math.random() * 255);
+  return "rgb(" + red + "," + green + "," + blue + ")";
+};
 
 const initializePieces = (rows, cols) => {
   SIZE.rows = rows;
   SIZE.columns = cols;
 
   PIECES = [];
-  const uniqueRandomColor = [];
+  const uniqueRandomColors = [];
   // iterate through the rows using i, rows using j
   for (let i = 0; i < SIZE.rows; i++) {
     for (let j = 0; j < SIZE.columns; j++) {
       let color = getRandomColor();
-      while(uniqueRandomColor.includes(color)){
-        color=getRandomColor();
+      while (uniqueRandomColors.includes(color)) {
+        color = getRandomColor();
       }
       // add a new piece using these two indeces
       PIECES.push(new Piece(i, j, color));
     }
   }
 
-  let cnt=0;
-  for(let i=0;i<SIZE.rows;i++){
-    for(let j=0;j<SIZE.columns;j++){
-      const piece=PIECES[cnt];
-      if(i==SIZE.rows-1){
-        piece.bottom=null;
-      }else{
-        // sign will be either + or - 1 to signify the tabs 
-        const sgn=(Math.random()-0.5)<0?-1:1;
+  let cnt = 0;
+  for (let i = 0; i < SIZE.rows; i++) {
+    for (let j = 0; j < SIZE.columns; j++) {
+      const piece = PIECES[cnt];
+      if (i == SIZE.rows - 1) {
+        piece.bottom = null;
+      } else {
+        // sign will be either + or - 1 to signify the tabs
+        const sgn = Math.random() - 0.5 < 0 ? -1 : 1;
         // allow the piece to be between 0.3 and 0.7
-        piece.bottom=sgn*(Math.random()*0.4+0.3);
+        piece.bottom = sgn * (Math.random() * 0.4 + 0.3);
       }
 
-      if(j==SIZE.columns-1){
-        piece.right=null;
-      }else{
-        const sgn=(Math.random()-0.5)<0?-1:1;
-        piece.right=sgn*(Math.random()*0.4+0.3);
-      }
-
-      if (j==0) {
-        piece.left=null;
+      if (j == SIZE.columns - 1) {
+        piece.right = null;
       } else {
-        piece.left=-PIECES[cnt-1].right;
+        const sgn = Math.random() - 0.5 < 0 ? -1 : 1;
+        piece.right = sgn * (Math.random() * 0.4 + 0.3);
       }
 
-      if (i==0){
-        piece.top=null;
+      if (j == 0) {
+        piece.left = null;
       } else {
-        piece.top=-PIECES[cnt-SIZE.columns].bottom;
+        piece.left = -PIECES[cnt - 1].right;
+      }
+
+      if (i == 0) {
+        piece.top = null;
+      } else {
+        piece.top = -PIECES[cnt - SIZE.columns].bottom;
       }
       cnt++;
     }
@@ -332,17 +335,17 @@ const randomizePieces = () => {
       // scaled by the canvas width and height (subtracted by piece width/height)
       x: Math.random() * (CANVAS.width - PIECES[i].width),
       y: Math.random() * (CANVAS.height - PIECES[i].height),
-    }
+    };
     PIECES[i].x = loc.x;
     PIECES[i].y = loc.y;
     // comment this out to randomize
-    PIECES[i].correct=false; 
+    PIECES[i].correct = false;
   }
 };
 
 // define piece class, specify a row and column index in constructor
 class Piece {
-  constructor(rowIndex, colIndex) {
+  constructor(rowIndex, colIndex, color) {
     this.rowIndex = rowIndex;
     this.colIndex = colIndex;
     this.x = SIZE.x + (SIZE.width * this.colIndex) / SIZE.columns;
@@ -351,147 +354,158 @@ class Piece {
     this.height = SIZE.height / SIZE.rows;
     this.xCorrect = this.x;
     this.yCorrect = this.y;
-    this.correct=true;
+    this.correct = true;
+    this.color = color;
   }
   // to be able to draw the pieces, use draw method using context as a parameter
-  draw(context) {
+  draw(context, useCam = true) {
     context.beginPath();
+
+    const sz = Math.min(this.width, this.height);
+    const neck = 0.125 * sz;
+    const tabWidth = 0.3 * sz;
+    const tabHeight = 0.3 * sz;
+
+    // context.rect(this.x, this.y, this.width, this.height);
+    // from top left
+    context.moveTo(this.x, this.y);
+
+    // to top right
+    if (this.top) {
+      context.lineTo(this.x + this.width * Math.abs(this.top) - neck, this.y);
+      context.bezierCurveTo(
+        this.x + this.width * Math.abs(this.top) - neck,
+        this.y - tabHeight * Math.sign(this.top) * 0.2,
+
+        this.x + this.width * Math.abs(this.top) - tabWidth,
+        this.y - tabHeight * Math.sign(this.top),
+
+        this.x + this.width * Math.abs(this.top),
+        this.y - tabHeight * Math.sign(this.top)
+      );
+
+      context.bezierCurveTo(
+        this.x + this.width * Math.abs(this.top) + tabWidth,
+        this.y - tabHeight * Math.sign(this.top),
+
+        this.x + this.width * Math.abs(this.top) + neck,
+        this.y - tabHeight * Math.sign(this.top) * 0.2,
+
+        this.x + this.width * Math.abs(this.top) + neck,
+        this.y
+      );
+    }
+    context.lineTo(this.x + this.width, this.y);
+
+    // to bottom right
+    if (this.right) {
+      context.lineTo(
+        this.x + this.width,
+        this.y + this.height * Math.abs(this.right) - neck
+      );
+
+      context.bezierCurveTo(
+        this.x + this.width - tabHeight * Math.sign(this.right) * 0.2,
+        this.y + this.height * Math.abs(this.right) - neck,
+
+        this.x + this.width - tabHeight * Math.sign(this.right),
+        this.y + this.height * Math.abs(this.right) - tabWidth,
+
+        this.x + this.width - tabHeight * Math.sign(this.right),
+        this.y + this.height * Math.abs(this.right)
+      );
+
+      context.bezierCurveTo(
+        this.x + this.width - tabHeight * Math.sign(this.right),
+        this.y + this.height * Math.abs(this.right) + tabWidth,
+
+        this.x + this.width - tabHeight * Math.sign(this.right) * 0.2,
+        this.y + this.height * Math.abs(this.right) + neck,
+
+        this.x + this.width,
+        this.y + this.height * Math.abs(this.right) + neck
+      );
+    }
+    context.lineTo(this.x + this.width, this.y + this.height);
+
+    // to bottom left
+    if (this.bottom) {
+      context.lineTo(
+        this.x + this.width * Math.abs(this.bottom) + neck,
+        this.y + this.height
+      );
+
+      context.bezierCurveTo(
+        this.x + this.width * Math.abs(this.bottom) + neck,
+        this.y + this.height + tabHeight * Math.sign(this.bottom) * 0.2,
+
+        this.x + this.width * Math.abs(this.bottom) + tabWidth,
+        this.y + this.height + tabHeight * Math.sign(this.bottom),
+
+        this.x + this.width * Math.abs(this.bottom),
+        this.y + this.height + tabHeight * Math.sign(this.bottom)
+      );
+
+      context.bezierCurveTo(
+        this.x + this.width * Math.abs(this.bottom) - tabWidth,
+        this.y + this.height + tabHeight * Math.sign(this.bottom),
+
+        this.x + this.width * Math.abs(this.bottom) - neck,
+        this.y + this.height + tabHeight * Math.sign(this.bottom) * 0.2,
+
+        this.x + this.width * Math.abs(this.bottom) - neck,
+        this.y + this.height
+      );
+    }
+    context.lineTo(this.x, this.y + this.height);
+
+    // to top left
+    if (this.left) {
+      context.lineTo(this.x, this.y + this.height * Math.abs(this.left) + neck);
+
+      context.bezierCurveTo(
+        this.x + tabHeight + Math.sign(this.left) * 0.2,
+        this.y + this.height * Math.abs(this.left) + neck,
+
+        this.x + tabHeight * Math.sign(this.left),
+        this.y + this.height * Math.abs(this.left) + tabWidth,
+
+        this.x + tabHeight * Math.sign(this.left),
+        this.y + this.height * Math.abs(this.left)
+      );
+
+      context.bezierCurveTo(
+        this.x + tabHeight * Math.sign(this.left),
+        this.y + this.height * Math.abs(this.left) - tabWidth,
+
+        this.x + tabHeight * Math.sign(this.left) * 0.2,
+        this.y + this.height * Math.abs(this.left) - neck,
+
+        this.x,
+        this.y + this.height * Math.abs(this.left) - neck
+      );
+    }
+    context.lineTo(this.x, this.y);
+
+    context.save();
+    context.clip();
+
+    const scaledTabHeight =
+      Math.min(VIDEO.videoWidth/SIZE.columns,
+        VIDEO.videoHeight/SIZE.rows)*tabHeight/sz;
 
     // call that crops a specific part of the video
     context.drawImage(
       VIDEO,
-      (this.colIndex * VIDEO.videoWidth) / SIZE.columns,
-      (this.rowIndex * VIDEO.videoHeight) / SIZE.rows,
-      VIDEO.videoWidth / SIZE.columns,
-      VIDEO.videoHeight / SIZE.rows,
-      this.x,
-      this.y,
-      this.width,
-      this.height
+      (this.colIndex * VIDEO.videoWidth) / SIZE.columns-scaledTabHeight,
+      (this.rowIndex * VIDEO.videoHeight) / SIZE.rows-scaledTabHeight,
+      VIDEO.videoWidth / SIZE.columns+scaledTabHeight*2,
+      VIDEO.videoHeight / SIZE.rows+scaledTabHeight*2,
+      this.x-tabHeight,
+      this.y-tabHeight,
+      this.width+tabHeight*2,
+      this.height+tabHeight*2
     );
-
-    const sz=Math.min(this.width,this.height);
-    const neck=0.125*sz;
-    const tabWidth=0.3*sz;
-    const tabHeight=0.3*sz;
-
-    // context.rect(this.x, this.y, this.width, this.height);
-    // from top left
-    context.moveTo(this.x,this.y);
-
-    // to top right
-    if(this.top){
-      context.lineTo(this.x+this.width*Math.abs(this.top)-neck,this.y);
-      context.bezierCurveTo(
-        this.x+this.width*Math.abs(this.top)-neck,
-        this.y-tabHeight*Math.sign(this.top)*0.2,
-
-        this.x+this.width*Math.abs(this.top)-tabWidth,
-        this.y-tabHeight*Math.sign(this.top),
-
-        this.x+this.width*Math.abs(this.top),
-        this.y-tabHeight*Math.sign(this.top)
-      );
-      
-      context.bezierCurveTo(
-        this.x+this.width*Math.abs(this.top)+tabWidth,
-        this.y-tabHeight*Math.sign(this.top),
-
-        this.x+this.width*Math.abs(this.top)+neck,
-        this.y-tabHeight*Math.sign(this.top)*0.2,
-
-        this.x+this.width*Math.abs(this.top)+neck,
-        this.y
-      );
-    }
-    context.lineTo(this.x+this.width,this.y);
-
-    // to bottom right
-    if(this.right){
-      context.lineTo(this.x+this.width,this.y+this.height*Math.abs(this.right)-neck);
-
-      context.bezierCurveTo(
-        this.x+this.width-tabHeight*Math.sign(this.right)*0.2,
-        this.y+this.height*Math.abs(this.right)-neck,
-
-        this.x+this.width-tabHeight*Math.sign(this.right),
-        this.y+this.height*Math.abs(this.right)-tabWidth,
-
-        this.x+this.width-tabHeight*Math.sign(this.right),
-        this.y+this.height*Math.abs(this.right)
-      );
-
-      context.bezierCurveTo(
-        this.x+this.width-tabHeight*Math.sign(this.right),
-        this.y+this.height*Math.abs(this.right)+tabWidth,
-
-        this.x+this.width-tabHeight*Math.sign(this.right)*0.2,
-        this.y+this.height*Math.abs(this.right)+neck,
-
-        this.x+this.width,
-        this.y+this.height*Math.abs(this.right)+neck
-      );
-    }
-    context.lineTo(this.x+this.width,this.y+this.height);
-
-
-    // to bottom left
-    if(this.bottom){
-      context.lineTo(this.x+this.width*Math.abs(this.bottom)+neck,
-        this.y+this.height);
-
-      context.bezierCurveTo(
-        this.x+this.width*Math.abs(this.bottom)+neck,
-        this.y+this.height+tabHeight*Math.sign(this.bottom)*0.2,
-
-        this.x+this.width*Math.abs(this.bottom)+tabWidth,
-        this.y+this.height+tabHeight*Math.sign(this.bottom),
-
-        this.x+this.width*Math.abs(this.bottom),
-        this.y+this.height+tabHeight*Math.sign(this.bottom)
-      );
-
-      context.bezierCurveTo(
-        this.x+this.width*Math.abs(this.bottom)-tabWidth,
-        this.y+this.height+tabHeight*Math.sign(this.bottom),
-
-        this.x+this.width*Math.abs(this.bottom)-neck,
-        this.y+this.height+tabHeight*Math.sign(this.bottom)*0.2,
-
-        this.x+this.width*Math.abs(this.bottom)-neck,
-        this.y+this.height
-      );
-
-    }
-    context.lineTo(this.x,this.y+this.height);
-
-    // to top left
-    if(this.left){
-      context.lineTo(this.x,this.y+this.height*Math.abs(this.left)+neck);
-      
-      context.bezierCurveTo(
-        this.x+tabHeight+Math.sign(this.left)*0.2,
-        this.y+this.height*Math.abs(this.left)+neck,
-
-        this.x+tabHeight*Math.sign(this.left),
-        this.y+this.height*Math.abs(this.left)+tabWidth,
-
-        this.x+tabHeight*Math.sign(this.left),
-        this.y+this.height*Math.abs(this.left)
-      );
-
-      context.bezierCurveTo(
-        this.x+tabHeight*Math.sign(this.left),
-        this.y+this.height*Math.abs(this.left)-tabWidth,
-
-        this.x+tabHeight*Math.sign(this.left)*0.2,
-        this.y+this.height*Math.abs(this.left)-neck,
-
-        this.x,
-        this.y+this.height*Math.abs(this.left)-neck
-      );
-    }
-    context.lineTo(this.x,this.y);
     context.stroke();
   }
   // add method for seeing if the piece is close to the correct location
@@ -512,7 +526,7 @@ class Piece {
   snap() {
     this.x = this.xCorrect;
     this.y = this.yCorrect;
-    this.correct=true;
+    this.correct = true;
     POP_SOUND.play();
   }
 }
@@ -524,123 +538,140 @@ const distance = (p1, p2) => {
   );
 };
 
-// function to play a single note 
-const playNote = (key,duration) => {
+// function to play a single note
+const playNote = (key, duration) => {
   // define oscillator which is responsible for generating the sound with the given frequency
-  let osc=AUDIO_CONTEXT.createOscillator();
+  let osc = AUDIO_CONTEXT.createOscillator();
   // set the frequency as to the value coming as a parameter
-  osc.frequency.value=key;
+  osc.frequency.value = key;
   // start the oscillator at the current time
   osc.start(AUDIO_CONTEXT.currentTime);
   // tell it to stop after the specified duration
   // setTimeout expects it in milliseconds and the stop method expects it in seconds, so divide by 1000
-  osc.stop(AUDIO_CONTEXT.currentTime+duration/1000);
-  
+  osc.stop(AUDIO_CONTEXT.currentTime + duration / 1000);
+
   // sound more like a piano using an envelope to control the game (think of it as audio in a sense)
-  let envelope=AUDIO_CONTEXT.createGain();
+  let envelope = AUDIO_CONTEXT.createGain();
   // connect to default speakers via envelope
   osc.connect(envelope);
   // change wave type to triangle (from the default sin)
-  osc.type='triangle';
-  // connect the envelope to the destination 
+  osc.type = "triangle";
+  // connect the envelope to the destination
   envelope.connect(AUDIO_CONTEXT.destination);
   // the piano sound has a powerful attack which means that it needs to go to 0 to maximum gain quickly
-  envelope.gain.setValueAtTime(0,AUDIO_CONTEXT.currentTime);
+  envelope.gain.setValueAtTime(0, AUDIO_CONTEXT.currentTime);
   // max is 0.5 instead of 1 so it is not too loud, doing this in 0.1 seconds
-  envelope.gain.linearRampToValueAtTime(0.5,AUDIO_CONTEXT.currentTime+0.1);
-  envelope.gain.linearRampToValueAtTime(0,AUDIO_CONTEXT.currentTime+duration/1000);
+  envelope.gain.linearRampToValueAtTime(0.5, AUDIO_CONTEXT.currentTime + 0.1);
+  envelope.gain.linearRampToValueAtTime(
+    0,
+    AUDIO_CONTEXT.currentTime + duration / 1000
+  );
 
   // good to disconnect the oscillator at the same time otherwise there may be background noise on the browser
-  setTimeout(function(){
+  setTimeout(function () {
     osc.disconnect();
-  },duration);
-}
+  }, duration);
+};
 
-// start with simple note playing for 300 ms, followed by notes playing for a specified time + the time from the start time 
+// start with simple note playing for 300 ms, followed by notes playing for a specified time + the time from the start time
 const playMelody = () => {
-  playNote(keys.MI,300);
-  setTimeout(function(){
-    playNote(keys.DO,300);
+  playNote(keys.MI, 300);
+  setTimeout(function () {
+    playNote(keys.DO, 300);
   }, 300);
-  setTimeout(function(){
-    playNote(keys.MI,150);
+  setTimeout(function () {
+    playNote(keys.MI, 150);
   }, 450);
-  setTimeout(function(){
-    playNote(keys.MI,600);
+  setTimeout(function () {
+    playNote(keys.MI, 600);
   }, 600);
-}
+};
 
 const showEndScreen = () => {
-  const time = Math.floor((END_TIME-START_TIME)/1000);
-  document.getElementById("scoreValue").innerHTML="Score: "+time;
-  document.getElementById("endScreen").style.display="block";
-  document.getElementById("saveBtn").innerHTML="Save";
-  document.getElementById("saveBtn").disabled=false;
-}
+  const time = Math.floor((END_TIME - START_TIME) / 1000);
+  document.getElementById("scoreValue").innerHTML = "Score: " + time;
+  document.getElementById("endScreen").style.display = "block";
+  document.getElementById("saveBtn").innerHTML = "Save";
+  document.getElementById("saveBtn").disabled = false;
+};
 
 const showMenu = () => {
-  document.getElementById("endScreen").style.display="none";
-  document.getElementById("menuItems").style.display="block";
-}
+  document.getElementById("endScreen").style.display = "none";
+  document.getElementById("menuItems").style.display = "block";
+};
 
 const showScores = () => {
-  document.getElementById("endScreen").style.display="none";
-  document.getElementById("scoresScreen").style.display="block";
-  document.getElementById("scoresContainer").innerHTML="Loading...";
+  document.getElementById("endScreen").style.display = "none";
+  document.getElementById("scoresScreen").style.display = "block";
+  document.getElementById("scoresContainer").innerHTML = "Loading...";
   getScores();
-}
+};
 
 const closeScores = () => {
-  document.getElementById("endScreen").style.display="block";
-  document.getElementById("scoresScreen").style.display="none";
-}
+  document.getElementById("endScreen").style.display = "block";
+  document.getElementById("scoresScreen").style.display = "none";
+};
 
 const getScores = () => {
-  fetch("server.php").then(function(response){
-    response.json().then(function(data){
-      document.getElementById("scoresContainer").innerHTML=
-      formatScores(data);
+  fetch("server.php").then(function (response) {
+    response.json().then(function (data) {
+      document.getElementById("scoresContainer").innerHTML = formatScores(data);
     });
   });
-}
+};
 
 const saveScore = () => {
-  const time=END_TIME-START_TIME;
-  const name=document.getElementById("name").value;
-  if(name==""){
+  const time = END_TIME - START_TIME;
+  const name = document.getElementById("name").value;
+  if (name == "") {
     alert("Please enter your name");
     return;
   }
-  const difficulty=document.getElementById("difficulty").value;
+  const difficulty = document.getElementById("difficulty").value;
 
-  fetch('server.php?info={"name":"'+name+'",'+
-  '"time":'+time+','+'"difficulty":"'+difficulty+'"}')
-  .then(function(response){
-    document.getElementById('saveBtn').innerHTML="Okay!"
+  fetch(
+    'server.php?info={"name":"' +
+      name +
+      '",' +
+      '"time":' +
+      time +
+      "," +
+      '"difficulty":"' +
+      difficulty +
+      '"}'
+  ).then(function (response) {
+    document.getElementById("saveBtn").innerHTML = "Okay!";
   });
 
-  document.getElementById('saveBtn').disabled=true;
-}
+  document.getElementById("saveBtn").disabled = true;
+};
 
 const formatScores = (data) => {
-  let html="<table style='width:100%;text-align:center;'>";
+  let html = "<table style='width:100%;text-align:center;'>";
 
-  html+=formatScoreTable(data["easy"],"Easy");
-  html+=formatScoreTable(data["medium"],"Medium");
-  html+=formatScoreTable(data["hard"],"Hard");
-  html+=formatScoreTable(data["impossible"],"Impossible");
+  html += formatScoreTable(data["easy"], "Easy");
+  html += formatScoreTable(data["medium"], "Medium");
+  html += formatScoreTable(data["hard"], "Hard");
+  html += formatScoreTable(data["impossible"], "Impossible");
 
   return html;
-}
+};
 
-const formatScoreTable = (data,header) => {
-  html+="<tr style='background:rgb(123,146,196);color:white'>";
-  html+="<td></td><td><b>"+header+"</b></td><td><b>Time</b></td></tr>";
+const formatScoreTable = (data, header) => {
+  html += "<tr style='background:rgb(123,146,196);color:white'>";
+  html += "<td></td><td><b>" + header + "</b></td><td><b>Time</b></td></tr>";
 
-  for(let i=0;i<data.length;i++){
-    html+="<tr>";
-    html+="<td>"+(i+1)+".</td><td title='"+data["easy"][i]["Name"]+
-      "'>"+data[i]["Name"]+"</td><td>"+Math.floor(data[i]["Time"]/1000)+
+  for (let i = 0; i < data.length; i++) {
+    html += "<tr>";
+    html +=
+      "<td>" +
+      (i + 1) +
+      ".</td><td title='" +
+      data["easy"][i]["Name"] +
+      "'>" +
+      data[i]["Name"] +
+      "</td><td>" +
+      Math.floor(data[i]["Time"] / 1000) +
       "</td></tr>";
   }
-}
+};
