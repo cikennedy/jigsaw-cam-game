@@ -441,7 +441,7 @@ class Piece {
         this.y+this.height);
 
       context.bezierCurveTo(
-        this.x+this.width+Math.abs(this.bottom)+neck,
+        this.x+this.width*Math.abs(this.bottom)+neck,
         this.y+this.height+tabHeight*Math.sign(this.bottom)*0.2,
 
         this.x+this.width*Math.abs(this.bottom)+tabWidth,
