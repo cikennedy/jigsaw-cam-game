@@ -494,18 +494,25 @@ class Piece {
       Math.min(VIDEO.videoWidth/SIZE.columns,
         VIDEO.videoHeight/SIZE.rows)*tabHeight/sz;
 
+    if(useCam){
     // call that crops a specific part of the video
-    context.drawImage(
-      VIDEO,
-      (this.colIndex * VIDEO.videoWidth) / SIZE.columns-scaledTabHeight,
-      (this.rowIndex * VIDEO.videoHeight) / SIZE.rows-scaledTabHeight,
-      VIDEO.videoWidth / SIZE.columns+scaledTabHeight*2,
-      VIDEO.videoHeight / SIZE.rows+scaledTabHeight*2,
-      this.x-tabHeight,
-      this.y-tabHeight,
-      this.width+tabHeight*2,
-      this.height+tabHeight*2
-    );
+      context.drawImage(
+        VIDEO,
+        (this.colIndex * VIDEO.videoWidth) / SIZE.columns-scaledTabHeight,
+        (this.rowIndex * VIDEO.videoHeight) / SIZE.rows-scaledTabHeight,
+        VIDEO.videoWidth / SIZE.columns+scaledTabHeight*2,
+        VIDEO.videoHeight / SIZE.rows+scaledTabHeight*2,
+        this.x-tabHeight,
+        this.y-tabHeight,
+        this.width+tabHeight*2,
+        this.height+tabHeight*2);
+    }else{
+      context.fillStyle=this.color;
+      context.fillRect(this.x-tabHeight,this.y-tabHeight,
+        this.width+tabHeight*2,this.height*tabHeight*2);
+    }
+    
+    context.restore();
     context.stroke();
   }
   // add method for seeing if the piece is close to the correct location
