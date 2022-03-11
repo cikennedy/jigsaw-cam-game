@@ -144,6 +144,16 @@ const addEventListeners = () => {
 };
 
 const onMouseDown = (e) => {
+  // get the image data from event.x, event.y as an array with four elements
+  // red, green, blue, transparency
+  const imgData = CONTEXT.getImageData(evt.x, evt.y, 1, 1);
+  if(imgData[3]==0) {
+    return;
+  }
+  const clickedColor="rgb("+imgData.data[0]+","+
+    imgData.data[1]+","+
+    imgData.data[2]+")";
+
   SELECTED_PIECE = getPressedPiece(e);
   // if a piece is selected, calculate the offset to the top left
   // use the offset while dragging so that the piece doesn't snap to the mouse location
@@ -221,6 +231,16 @@ const getPressedPiece = (loc) => {
     }
   }
   // if nothing matches the conditions, return null. meaning nothing was pressed
+  return null;
+};
+
+
+const getPressedPieceByColor = (loc, color) => {
+  for (let i = PIECES.length - 1; i >= 0; i--) {
+    if (PIECES[i].color==color) {
+      return PIECES[i];
+    }
+  }
   return null;
 };
 
