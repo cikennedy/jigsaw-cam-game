@@ -155,7 +155,7 @@ const addEventListeners = () => {
 const onMouseDown = (e) => {
   // get the image data from event.x, event.y as an array with four elements
   // red, green, blue, transparency
-  const imgData = HELPER_CONTEXT.getImageData(evt.x, evt.y, 1, 1);
+  const imgData = HELPER_CONTEXT.getImageData(e.x, e.y, 1, 1);
   if(imgData[3]==0) {
     return;
   }
