@@ -41,6 +41,10 @@ const main = () => {
   // 2d context provides drawing methods to build game, canvas will fill entire window
   CONTEXT = CANVAS.getContext("2d");
 
+  HELPER_CANVAS = document.getElementById("helperCanvas");
+  // 2d context provides drawing methods to build game, canvas will fill entire window
+  HELPER_CONTEXT = CANVAS.getContext("2d");
+
   addEventListeners();
 
   // a promise to get access to media devices. only interested in the video
@@ -151,7 +155,7 @@ const addEventListeners = () => {
 const onMouseDown = (e) => {
   // get the image data from event.x, event.y as an array with four elements
   // red, green, blue, transparency
-  const imgData = CONTEXT.getImageData(evt.x, evt.y, 1, 1);
+  const imgData = HELPER_CONTEXT.getImageData(evt.x, evt.y, 1, 1);
   if(imgData[3]==0) {
     return;
   }
@@ -253,6 +257,9 @@ const handleResize = () => {
   // canvas will resize, not just the camera stream
   CANVAS.width = window.innerWidth;
   CANVAS.height = window.innerHeight;
+
+  HELPER_CANVAS.width = window.innerWidth;
+  HELPER_CANVAS.height = window.innerHeight;
   // update scaler/size values here when metadata is available
   let resizer =
     SCALER *
@@ -273,6 +280,8 @@ const handleResize = () => {
 const updateGame = () => {
   // clear the canvas
   CONTEXT.clearRect(0, 0, CANVAS.width, CANVAS.height);
+
+  HELPER_CONTEXT.clearRect(0, 0, CANVAS.width, CANVAS.height);
   // 50% transparency
   CONTEXT.globalAlpha = 0.5;
 
@@ -283,7 +292,8 @@ const updateGame = () => {
 
   // iterate through the pieces and call the draw method using the global context
   for (let i = 0; i < PIECES.length; i++) {
-    PIECES[i].draw(CONTEXT,false);
+    PIECES[i].draw(CONTEXT);
+    PIECES[i].draw(HELPER_CONTEXT, false);
   }
   // call the updateTime function as this is called on every frame
   updateTime();
