@@ -3,8 +3,13 @@
 let VIDEO = null;
 // initialize canvas object
 let CANVAS = null;
+
 // add reference to canvas context object
 let CONTEXT = null;
+
+let HELPER_CANVAS = null;
+
+let HELPER_CONTEXT = null;
 // specify how much of the screen space will be used by the image. adjusting this will change the margin of the cam image
 let SCALER = 0.8;
 // keep track of other related information in the size variable
