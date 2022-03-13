@@ -326,6 +326,7 @@ const initializePieces = (rows, cols) => {
     }
   }
 
+  // piece initialization 
   let cnt = 0;
   for (let i = 0; i < SIZE.rows; i++) {
     for (let j = 0; j < SIZE.columns; j++) {
