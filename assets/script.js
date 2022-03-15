@@ -27,7 +27,7 @@ let POP_SOUND = new Audio("./assets/pop.m4a");
 POP_SOUND.volume = 0.1;
 
 let YOU_WIN = new Audio("./assets/you-win-total.m4a");
-YOU_WIN.volume = 0.15;
+YOU_WIN.volume = 0.9;
 
 // synthesize sounds in javascript
 let AUDIO_CONTEXT = new (AudioContext ||
@@ -208,7 +208,7 @@ const onMouseUp = () => {
       END_TIME = now;
       
       //add delay for the you win noise so it doesn't overlap with pop noise 
-      setTimeout(YOU_WIN.play(), 500);
+      setTimeout(YOU_WIN.play(), 1000);
       // add delay for the playMelody function so that the popping sound does not overlap with the game complete noise
       // setTimeout(playMelody, 500);
       showEndScreen();
