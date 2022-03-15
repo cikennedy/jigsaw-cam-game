@@ -25,6 +25,10 @@ let END_TIME = null;
 let POP_SOUND = new Audio("./assets/pop.m4a");
 // this will play whenever a piece is correctly placed
 POP_SOUND.volume = 0.1;
+
+let YOU_WIN = new Audio("./assets/you-win-total.m4a");
+YOU_WIN.volume = 0.15;
+
 // synthesize sounds in javascript
 let AUDIO_CONTEXT = new (AudioContext ||
   webkitAudioContext ||
@@ -202,8 +206,11 @@ const onMouseUp = () => {
       // set the end time to the current time
       let now = new Date().getTime();
       END_TIME = now;
+      
+      //add delay for the you win noise so it doesn't overlap with pop noise 
+      setTimeout(YOU_WIN.play(), 500);
       // add delay for the playMelody function so that the popping sound does not overlap with the game complete noise
-      setTimeout(playMelody, 500);
+      // setTimeout(playMelody, 500);
       showEndScreen();
     }
   }
